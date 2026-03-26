@@ -1,0 +1,9 @@
+Online prediction of when a job will complete is critical for shop floor planning,
+  customer communication, and intervention. Models can rely on the aggregate state
+  of the system (queueing models, time series) or case-level trajectories using event
+  logs to estimate job outcomes. Prior work has overlooked how characteristics of the
+  manufacturing process affect the incremental accuracy gain of case-based over state-based
+   predictions. Using discrete event simulation with configurable parameters of a manufacturing
+   process, and analyzing synthetic event data, we find this gain is smallest in processes
+    with low path entropy and low between-path time variance. We propose a contingency view
+    that links the value of case-level data to quantified process structure.
