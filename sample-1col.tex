@@ -22,6 +22,7 @@
 %%
 %% end of the preamble, start of the body of the document source.
 % --- PREAMBLE ---
+\usepackage{graphicx}
 \usepackage{tikz}
 \usetikzlibrary{positioning, arrows.meta}
 \usetikzlibrary{positioning, arrows.meta, decorations.pathreplacing, shapes.symbols}
@@ -228,7 +229,7 @@ Time Series Analysis is a versatile method used in a wide variety of predictive 
 \subsection{The case-path alternative}
 
 Predictive Process Monitoring is a branch of process mining that aims at predicting the future of an ongoing (uncompleted) process execution (job). Typical examples of predictions include 
-categorical outcome, the sequence of the next activities, or completion time of the job (Francescomarino & Ghidini, 2022). PPM allows the practitioner to prevent violations and improve the
+categorical outcome, the sequence of the next activities, or completion time of the job (Francescomarino and Ghidini, 2022). PPM allows the practitioner to prevent violations and improve the
 outcome of the job real-time. PPM apporaches usuallly leverage past historical executions to provide predictions about the future of an ongoing job. The high-level implementation workflow is similar to that of a general ML 
 problem, as it consists of 2 phases: 
 a training or learning phase, where a predictive model is learned from logs of historical (complete) jobs. Specifically, the partial trace of acitivities, timestamps, and contextual attributes
@@ -237,23 +238,30 @@ jobs that visited the same sequence of stations, consumed similar time at each s
 
 PPM apporaches can be divided into generative and discriminative models (). 
 
-and a runtime/prediction phase, where the model is queried for predicting thefuture of an ongoing case (Francescomarino & Ghidini, 2022).
+and a runtime/prediction phase, where the model is queried for predicting thefuture of an ongoing case (Francescomarino and Ghidini, 2022).
 In this study, we focus on remaining time prediction. Time prediction in PPM are generally split into generative and discriminative methods.
 
 
 \subsection{The tension and motivation for our study}
 Most time prediction studies in both OM and PPM perform mass evaluation to find the most consistently outperformning model(s), without asking "under what circumstances", 
-or how these model's relative accuracy changes across different kinds of dataset or process. We see this as a missed opportunity to deepen understanding of the technologies that exist, and use that understanding to fuel both effective
+or how these model's relative accuracy changes across different kinds of dataset or process. We see this as a missed opportunity to deepen our understanding of the technologies that exist, and use that understanding to fuel both effective
 application as well as development of new technologies that address the caveats of the existing ones.
 
-For us, it was natural to suspect that predictive accuracy depends not only on model sophistication or data richness, but also on the characteristics of the data, and therefore, the target process. 
+It was natural to suspect that predictive accuracy depends not only on model sophistication or data richness, but also on the characteristics of the data, and therefore, the target process. 
 Yet we are not aware of any study systematically addressing the relationship between the characteristics of the process itself and the effectiveness of a time prediction model. 
 Some studies have explored the boundaries of existing predictors, yet they use different lens from ours. Like us, Bassamboo and Ibrahim (2020) seek to move beyond mass evaluation and develop a 
-contingency view to explain the relative perfromance of different prediction methods. Specifically, they compare the accuracy of static (average waiting times over a long horizon) against a dynamic LES snapshot predictor. However, our perspectives differ quite significantly: Bassomboo and Ibrahim study single-stage queuesand assume 
-that a single announcement is made at the moment a customer (job) arrives and is never updated. We study predictions that are continuously upadted as a case progresses through multiple stages of a manufacturing process, incorporating new information about the job after every activity completion.
-Second, their contingency criterion is based on statistical propoerty - the correlation between predictor and outcome, whereas our criterion is based on the properties of the process itself.
+contingency view to explain the relative perfromance of different prediction methods. Specifically, they compare the accuracy of static (average waiting times over a long horizon) against a dynamic LES snapshot predictor. 
+They show that the LES predictor outperforms the static announcement if and only if the correlation between LES predictions and actual waiting times exceeds 1/2. 
+Chocron et al. 2022 explored the conditions under which traditional Queueing Theory-based predictors are preferred over machine learning algorithms by varying the degree to which a queueing system 
+violates standard queueing theory assumptions (e.g, non-stationarity, nonexponential service times, state-dependent service times, abandonments).
 
+However, our study differs from these perspectives in two significant ways. First, while both Bassamboo and Ibrahim (2020) and Chocron (2022) study single stage service queues and assume a single
+prediction is made at the moment of arrival, we investigate multi-stage manufacturing processes; comparing the more static, state-based predictors with the case-path based predictions which are continuously upadted as a case progresses through multiple stages of a
+manufacturing process, incorporating new information about the job after every activity completion. 
 
+Second, while their contigency criteria are based on statistical properties, such as the correlation between the prediction and the observation or the violation of distribution assumptions, our criterion is based on the structural complexity of the process itself. 
+Although we utilize statiscal methods to quantify these characteristics using historical data, the metrics computed essentially represents the physical configuration of the process rather than the temporal fluctuations
+of the queue. 
 
 % Modifying the template --- including but not limited to: adjusting
 % margins, typeface sizes, line spacing, paragraph and list definitions,
@@ -426,8 +434,9 @@ Specifically, the general object model for processes, tasks and resources, as we
 manufacturing line with quality control and rework, inspired by Lorenz et al. (2021). The fixed assumptions include:
 
 \begin{itemize}
-    \item An open, single-class Jackson network, with exponential arrival and service rates, and probabilistic routing. 
-    We selected an average arrival rate of 0.28* (time unit is the simulation clock time units). This means that in different simulation runs of length 1000, there might be approximately 270 or 290 jobs but on average across many runs, the average will be around 280 jobs.
+    \item An open, single-class Jackson network
+    \item Poisson arrivals with average rate $\lambda = 0.28$ per simulation time unit. This means that in different simulation runs of length 1000, there might be approximately 270 or 290 jobs but on average across many runs, the average will be around 280 jobs.
+    \item exponential and independent service times across all stations
     \item No machine breakdown
     \item Machines are assigned through a First Come First Served (FCFS) Policy
     \item Unlimited queue length
@@ -937,7 +946,7 @@ third-party material, you must clearly identify it as such, as shown
 in the example below.
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth-80pt]{UML_state_machine_Fig1}
+  \includegraphics[width=\linewidth-80pt]{UML_state_machine_Fig1.png}
   \caption{Sample UML state machine (source: \url{https://en.wikipedia.org/wiki/UML_state_machine}, license CC BY-SA 3.0).}
 \end{figure}
 
@@ -1056,6 +1065,7 @@ numbered.
 %%
 %% Define the bibliography file to be used
 \bibliography{sample-ceur}
+\bibliographystyle{plain}
 
 %%
 %% If your work has an appendix, this is the place to put it.
