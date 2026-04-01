@@ -262,27 +262,36 @@ process performance, and predict the future or outcome of an going process. It i
 that is relevant for our case-path prediction approach.
 
 Predictive Process Monitoring aims at predicting the future of an ongoing (uncompleted) process execution (job). Typical examples of predictions include 
-categorical outcome, the sequence of the next activities, or completion time of the job (Francescomarino and Ghidini, 2022). In this study, we focus on remaining time prediction. 
-PPM allows the practitioner to prevent violations and improve the outcome of the job real-time. PPM apporaches usuallly leverage past historical executions to provide predictions about the future of an ongoing job. The high-level implementation workflow is similar to that of a general ML 
+categorical outcome, the sequence of the next activities, or completion time of the job (Francescomarino and Ghidini, 2022). In this study, we focus on remaining time prediction. The high-level implementation workflow is similar to that of a general ML 
 problem, as it consists of 2 phases: 
-a training or learning phase, where a predictive model is learned from logs of historical (complete) jobs. Specifically, the partial trace of acitivities, timestamps, and contextual attributes
-recorded for a case up to the prediction point. The core (simplified) assumption is that future completion/remaining time will resemble those of historical jobs whose prefixes were similar: 
+a training or learning phase, where a predictive model is learned from logs of historical (complete) jobs. 
+and a runtime/prediction phase, where the model is queried for predicting the future of an ongoing case (Francescomarino and Ghidini, 2022) using its prefix - the partial trace of acitivities, timestamps, and contextual attributes
+recorded for the case up to the prediction point. 
+The core (simplified) assumption is that future completion/remaining time will resemble those of historical jobs whose prefixes were similar: 
 jobs that visited the same sequence of stations, consumed similar time at each stage, or uoperated under similar conditions are expected to complete in similar ways.
+PPM apporaches can be divided into generative and discriminative models (). Generative models explicitly reconstruct the process structure, estimating path probabilities and each possible path's completion times, and use the observed 
+prefix to infer the most likely route. Discriminative models treat prediction as regressional ML task, mapping prefix features directly to an outcome without modelling the process explicitly; some prominent models include (). Additional features, including
+system-wide and local state features can be leveraged. However, the case-level prefix is prerequisite to make any prediction at all. As such, PPM algorithms are able to produce a new of the remaining time or completion time of an
+ongoing job after completion of each stage, incorporating its most recent progresses. The ability to dynamically reflect on the job's own routing history and update its prediction means the case-path approach supposedly provides
+better accuracy than the more static, state-based predictors.
 
-and a runtime/prediction phase, where the model is queried for predicting thefuture of an ongoing case (Francescomarino and Ghidini, 2022).
-PPM apporaches can be divided into generative and discriminative models (). 
 
-Predictive process monitoring (PPM) is a newer approach that emerged within 
-the relatively young field of process mining, which relies on case-level path information extracted from event logs, including the sequence of activities/machines visited(control flow), 
-the timestamp of each completed activity (payload), and conditions each prediction on the individual job's history , treating the job's specific trajectory through the process as the primary source of predictive information. 
-The core assumption is that future values will be similar to past jobs where the trace (routing, elapsed time, context) was the same. System-wide state features can also be leveraged, 
-but the case-level prefix is precondition to make any prediction at all. As such, PPM algorithms are able to produce a new of the remaining time or completion time of an
-ongoing job after completion of each stage, incorporating its most recent progresses. The ability to dynamically reflect on the job's own routing history and improve means the case-path approach supposedly provides
-better accuracy than the more static, state-based predictors. (Maybe save some details for Lierature Review?)
+% the relatively young field of process mining, which relies on case-level path information extracted from event logs, including the sequence of activities/machines visited(control flow), 
+% the timestamp of each completed activity (payload), and conditions each prediction on the individual job's history , treating the job's specific trajectory through the process as the primary source of predictive information. 
+% The core assumption is that future values will be similar to past jobs where the trace (routing, time spent at each station, elapsed time, other contexts) was the same. 
+
+% System-wide state features can also be leveraged, 
+% but the case-level prefix is precondition to make any prediction at all. 
+% % PPM allows the practitioner to prevent violations and improve the outcome of the job real-time. 
+% As such, PPM algorithms are able to produce a new of the remaining time or completion time of an
+% ongoing job after completion of each stage, incorporating its most recent progresses. The ability to dynamically reflect on the job's own routing history and improve means the case-path approach supposedly provides
+% better accuracy than the more static, state-based predictors. (Maybe save some details for Lierature Review?)
 
 \subsection{The tension and motivation for our study}
-We are interested in the potential of PPM's case-path view to improve the dynamic time predictions beyond the state-based view, as state-based and case-path based methods are structurally different and have been studied separately (). But beyond that, we want to
-explore the boundaries of the value of this extra case-path information. Most time prediction studies perform mass evaluation to find the most consistently outperformning model(s), without asking "under what circumstances", 
+Both the state-base OM and the case-path based PPM models can leverage different computation tools and can be enriched with a wide range of domain-specific covariates, like job and shop characteristics, and doing so generally improves their accuracy. 
+However, the primary mechanisms are fundamentally different: the former relies on the state, or the momentum of the system; while the latter conditions on the incomplete history of the target case itself. Due to this structural difference, 
+state-based and case-path based methods have been studied separately (). To provide a middle ground, we study the potential of PPM's case-path view to improve the dynamic time predictions beyond the state-based view. But 
+more than that, we want to find the boundaries of the value-add of this case-path information. Most time prediction studies perform mass evaluation to find the most consistently outperformning model(s), without asking "under what circumstances", 
 or how these model's relative accuracy changes across different kinds of dataset or process. We see this as a missed opportunity to deepen our understanding of the technologies that exist, and use that understanding to fuel both effective
 application as well as development of new technologies that address the caveats of the existing ones.
 
