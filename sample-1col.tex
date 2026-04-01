@@ -170,42 +170,49 @@ critical for production planning, customer communication, and process improvemen
 this is a problem approached from an apriori perspective, producing a single estimate of total cycle 
 time or time of completion at job arrival (). The classical OR approach rely on the state of the system, 
 meaning how congested the system is relative to its capacity, to estimate how long jobs will take. 
-The modeler can dynamize the prediction by feeding the predictor with the most up-to-date information of WIP, 
-as well as other job and shop characteristics at prediction point, however once a prediction is made and the job is 
-released into the workfloor, no new prediction is made. As an industry heuristic, remaining time is derived by 
-subtracting elapsed time as the job progresses (top down) or by summing up the average historical run time of the 
-remaining stages in the process (bottom up).
+Once a prediction is made and the job is released into the shop floor, no new prediction is made. As an industry heuristic, 
+remaining time is derived by subtracting elapsed time from the initial forecast, or by summing the average historical 
+run times of the remaining stages.
 
-However, the increasing availability of detailed event log data from manufacturing execution systems creates both the opportunity and the 
+The increasing availability of detailed event log data from manufacturing execution systems creates both the opportunity and the 
 pressure to move beyond this static approach. This is particularly timely as manufacturers transition toward more flexible manufacturing systems
- (Weckenborg et al., 2024), where longer, more complex production processes with increasingly variable routing make a single upfront prediction insufficient 
- — and where the job's own unfolding path becomes a critical source of predictive information. (CLAUDE's proofread need to change later)
+ (Weckenborg et al., 2024), where longer, more complex production processes with increasingly probabilistic routing make a single apriori prediction insufficient 
+ — and where the job's unfolding path becomes a critical source of predictive information. (CLAUDE's proofread need to change later)
 
-Predictive process monitoring (PPM) is a newer approach that emerged within 
-the relatively young field of process mining, which relies on case-level path information extracted from event logs, including the sequence of activities/machines visited(control flow), 
-the timestamp of each completed activity (payload), and conditions each prediction on the individual job's history , treating the job's specific trajectory through the process as the primary source of predictive information. 
-The core assumption is that future values will be similar to past jobs where the trace (routing, elapsed time, context) was the same. System-wide state features can also be leveraged, 
-but the case-level prefix is precondition to make any prediction at all. As such, PPM algorithms are able to produce a new of the remaining time or completion time of an
-ongoing job after completion of each stage, incorporating its most recent progresses. The ability to dynamically reflect on the job's own routing history and improve means the case-path approach supposedly provides
-better accuracy than the more static, state-based predictors. (Maybe save some details for Lierature Review?)
+Predictive process monitoring (PPM) is a newer approach that emerged within the field of process mining that can address this problem. 
+Rather than relying on system-wide state, PPM conditions each prediction on the individual job's observed history — 
+the sequence of activities and machines visited, the timestamp of each completed activity, and the elapsed time accumulated so far. 
+The core assumption is that future outcomes will resemble those of historical jobs with similar histories. Because a new prediction 
+can be issued after every completed activity, PPM models update dynamically as the job progresses, which is a property that static, state-based forecasts do not share.
 
-Still, these path-aware models represent significant investment in data handling, information systems and modelling capabilities. This raises an important question for both OM and PPM researchers, and more broadly 
-for operational predictive analytics research: Under what circumstances does case-path information significantly elevate predictive performance? Conversely, when do state-based approaches offer adequate accuracy? 
-As PPM studies increasingly incorporate queueing-related features into ML predictors, understanding the conditions under which each type of information matters most becomes essential for designing efficient and 
-effective prediction systems. In this study, we tackle 
-this problem from an intuitive lens: the structural characteristics of the manufacturing process itself. Specifically, we study how two measurements of a process' structure influence the informational value of 
+Still, these path-aware models represent significant investment in data handling, information systems and modelling capabilities. This raises an important question for both OR and PPM researchers: Under what circumstances does case-path information significantly elevate predictive performance? 
+Conversely, when do state-based approaches offer adequate accuracy? 
+
+In this study, we tackle this problem from an intuitive lens: the structural characteristics of the manufacturing process itself. Specifically, we study how two measurements of a process' structure influence the informational value of 
 path knowledge (knowing all the possible paths and being able to infer the remaining route of the job), and therefore, determine the conditions under which case-path prediction 
-has the biggest advantage over the traditional state-based approach.
+has the biggest advantage over the traditional state-based approach. 
 
-The first measurement is between-path variance, specifically how much of total cycle time variance is explained by the choice of path, and the second measurement is the frequency distribution of paths across all observed jobs.
+The first measurement is between-path variance, representing how much of total cycle time variance is explained by the choice of path, and the second measurement is entropy, representing the frequency distribution of paths across all observed jobs.
+Together, these two dimensions define a contingency framework that links the structural properties of a process to the predictive value of case-path information.
 
-Our study establishes and provides first evidence for a contingency view that link the predictive value of case-path information to process characteristics. 
-We show that while the case-path model outperforms on all datasets, in processes with......and that exist an interaction
-effect between the two dimensions. Our paper's value lies in addressing the two tensions:
+Our study establishes and provides first evidence for this contingency view. Using discrete event simulation with configurable process parameters, 
+we generate synthetic event logs spanning a wide range of structural configurations and compare the predictive accuracy of a process-aware 
+Flow Analysis model against two state-based baselines — Simple Exponential Smoothing and Little's Law formula. We find that while the case-path model 
+outperforms on all datasets, the magnitude of this advantage varies substantially and predictably with process structure. Specifically, 
+we find that both between-path variance and path entropy have a positive and statistically significant relationship with the 
+relative accuracy gain of the case-path approach, and that there is an interaction effect between the two dimensions: entropy matters 
+more when variance is high, and vice versa. Together, the two dimensions explain 68\% of the variation in relative accuracy across 84 synthetic logs. (CLAUDE)
 
-First, 
+Our paper's value lies in addressing the two tensions. The first is theoretical: As PPM studies increasingly incorporate queueing-related features into ML predictors, and as OM researchers gain access to richer event-level process data, understanding the conditions 
+under which each type of information matters most becomes essential for designing efficient and effective prediction systems. Our study provides first evidence that process structure is a meaningful lens to look at this question and our proposed measurements, 
+between-path variance and path entropy, are useful indicators of the contingent value of the event-level process data.
+The second tension is practical: practitioners investing in event log infrastructure and PPM capabilities have no way of knowing in advance whether the accuracy gain will justify the cost. Our findings suggest that this question has a structural answer, one that 
+managers can assess by measuring observable characteristics of their own process before committing to the investment.
 
-The remainder of this paper is organized as follows. Section 2 reviews the literature on ... Section 3 
+The remainder of this paper is organized as follows. Section 2 reviews the literature on state-based and case-path approaches 
+to lead time prediction and motivates the contingency view. Section 3 introduces the theoretical framework and defines the two process 
+characteristics and the relative accuracy metric. Section 4 describes the simulation methodology and experimental design. 
+Section 5 presents the results. Section 6 discusses the findings and their implications, and Section 7 concludes.
 
 % As such, an important problem is 
 % determining whether the extra accuracy gain from leveraging case-path information is universal, and if not, identifying the boundaries of this gain. This is important not only for the
@@ -225,43 +232,82 @@ Queueing Theory is the study of queues...Especially important in manufacturing w
 
 Time Series Analysis is a versatile method used in a wide variety of predictive problems, including cycle times () and wait times () in manufacturing systems. Its core focus is on temporal patterns and trends.
 
-
 \subsection{The case-path alternative}
 
-Predictive Process Monitoring is a branch of process mining that aims at predicting the future of an ongoing (uncompleted) process execution (job). Typical examples of predictions include 
-categorical outcome, the sequence of the next activities, or completion time of the job (Francescomarino and Ghidini, 2022). PPM allows the practitioner to prevent violations and improve the
-outcome of the job real-time. PPM apporaches usuallly leverage past historical executions to provide predictions about the future of an ongoing job. The high-level implementation workflow is similar to that of a general ML 
+Process mining is a discipline developed at the intersection of business process management and data science. 
+
+It analyzses event logs - digital records produced by information systems that capture the execution of business processes (van der Aalst, 2016)
+
+\begin{table}[h]
+\centering
+\caption{A minimal event log example}
+\label{tab:eventlog}
+\begin{tabular}{llll}
+\toprule
+\textbf{Case ID} & \textbf{Activity} & \textbf{Timestamp} & \textbf{Resource} \\
+\midrule
+Job 01 & Moulding - end  & 2024-01-10 08:03 & Machine A \\
+Job 01 & Assembly - end  & 2024-01-10 11:47 & Machine C \\
+Job 01 & Packaging - end & 2024-01-10 15:22 & Machine E \\
+Job 02 & Moulding - end  & 2024-01-10 08:51 & Machine A \\
+Job 02 & Assembly - end  & 2024-01-10 13:10 & Machine D \\
+Job 02 & Packaging - end & 2024-01-10 17:45 & Machine F \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+From event logs, process mining methods automatically generate models that accurately represent how business processes are actually executed, 
+as opposed to how they are expected to be executed (process discovery). These models are then used to check whether execution conforms to the standard model (conformance checking), enhance
+process performance, and predict the future or outcome of an going process. It is this last branch -specifically the subfield of predictive process monitoring, 
+that is relevant for our case-path prediction approach.
+
+Predictive Process Monitoring aims at predicting the future of an ongoing (uncompleted) process execution (job). Typical examples of predictions include 
+categorical outcome, the sequence of the next activities, or completion time of the job (Francescomarino and Ghidini, 2022). In this study, we focus on remaining time prediction. 
+PPM allows the practitioner to prevent violations and improve the outcome of the job real-time. PPM apporaches usuallly leverage past historical executions to provide predictions about the future of an ongoing job. The high-level implementation workflow is similar to that of a general ML 
 problem, as it consists of 2 phases: 
 a training or learning phase, where a predictive model is learned from logs of historical (complete) jobs. Specifically, the partial trace of acitivities, timestamps, and contextual attributes
 recorded for a case up to the prediction point. The core (simplified) assumption is that future completion/remaining time will resemble those of historical jobs whose prefixes were similar: 
 jobs that visited the same sequence of stations, consumed similar time at each stage, or uoperated under similar conditions are expected to complete in similar ways.
 
+and a runtime/prediction phase, where the model is queried for predicting thefuture of an ongoing case (Francescomarino and Ghidini, 2022).
 PPM apporaches can be divided into generative and discriminative models (). 
 
-and a runtime/prediction phase, where the model is queried for predicting thefuture of an ongoing case (Francescomarino and Ghidini, 2022).
-In this study, we focus on remaining time prediction. Time prediction in PPM are generally split into generative and discriminative methods.
-
+Predictive process monitoring (PPM) is a newer approach that emerged within 
+the relatively young field of process mining, which relies on case-level path information extracted from event logs, including the sequence of activities/machines visited(control flow), 
+the timestamp of each completed activity (payload), and conditions each prediction on the individual job's history , treating the job's specific trajectory through the process as the primary source of predictive information. 
+The core assumption is that future values will be similar to past jobs where the trace (routing, elapsed time, context) was the same. System-wide state features can also be leveraged, 
+but the case-level prefix is precondition to make any prediction at all. As such, PPM algorithms are able to produce a new of the remaining time or completion time of an
+ongoing job after completion of each stage, incorporating its most recent progresses. The ability to dynamically reflect on the job's own routing history and improve means the case-path approach supposedly provides
+better accuracy than the more static, state-based predictors. (Maybe save some details for Lierature Review?)
 
 \subsection{The tension and motivation for our study}
-Most time prediction studies in both OM and PPM perform mass evaluation to find the most consistently outperformning model(s), without asking "under what circumstances", 
+We are interested in the potential of PPM's case-path view to improve the dynamic time predictions beyond the state-based view, as state-based and case-path based methods are structurally different and have been studied separately (). But beyond that, we want to
+explore the boundaries of the value of this extra case-path information. Most time prediction studies perform mass evaluation to find the most consistently outperformning model(s), without asking "under what circumstances", 
 or how these model's relative accuracy changes across different kinds of dataset or process. We see this as a missed opportunity to deepen our understanding of the technologies that exist, and use that understanding to fuel both effective
 application as well as development of new technologies that address the caveats of the existing ones.
 
-It was natural to suspect that predictive accuracy depends not only on model sophistication or data richness, but also on the characteristics of the data, and therefore, the target process. 
-Yet we are not aware of any study systematically addressing the relationship between the characteristics of the process itself and the effectiveness of a time prediction model. 
-Some studies have explored the boundaries of existing predictors, yet they use different lens from ours. Like us, Bassamboo and Ibrahim (2020) seek to move beyond mass evaluation and develop a 
-contingency view to explain the relative perfromance of different prediction methods. Specifically, they compare the accuracy of static (average waiting times over a long horizon) against a dynamic LES snapshot predictor. 
+It was natural to suspect that predictive accuracy depends not only on model sophistication or data richness, but also on the characteristics of the underlying system. 
+Yet in the context of multi-stage manufacturing processes, we are not aware of any study systematically addressing the relationship between the characteristics of the process itself and the effectiveness of a time prediction model. 
+Some studies have explored the boundaries of existing predictors for single-stage service systems. Bassamboo and Ibrahim (2020) seek to move beyond mass evaluation and develop a 
+contingency view to explain the relative perfromance of different prediction methods. Specifically, they compare the accuracy of static (average waiting times over a long horizon) against the LES snapshot predictor- which reports 
+the delay of the last customer to have entered service at the moment a new customer arrives and is never updated thereafter. 
 They show that the LES predictor outperforms the static announcement if and only if the correlation between LES predictions and actual waiting times exceeds 1/2. 
-Chocron et al. 2022 explored the conditions under which traditional Queueing Theory-based predictors are preferred over machine learning algorithms by varying the degree to which a queueing system 
-violates standard queueing theory assumptions (e.g, non-stationarity, nonexponential service times, state-dependent service times, abandonments).
+Chocron et al. 2022 explored the conditions under which traditional Queueing Theory-based predictors are preferred over machine learning algorithms by varying by testing both approaches across systems that 
+increasingly violate the clean assumptions queueing theory relies on — such as exponential service times, stationary arrival rates, and a first-come-first-served discipline. They find that ML algorithms outperform when
+FCFS priority discipline is violated.
 
-However, our study differs from these perspectives in two significant ways. First, while both Bassamboo and Ibrahim (2020) and Chocron (2022) study single stage service queues and assume a single
-prediction is made at the moment of arrival, we investigate multi-stage manufacturing processes; comparing the more static, state-based predictors with the case-path based predictions which are continuously upadted as a case progresses through multiple stages of a
-manufacturing process, incorporating new information about the job after every activity completion. 
+Our study shares the same motivation but differs from these studies in two ways. The first difference is that, while both Bassamboo and Ibrahim (2020) and Chocron (2022) study single stage service queues and assume a single
+prediction is made at the moment of arrival, we investigate multi-stage manufacturing processes. In this setting, aggregate state-based approaches behave much like the predictors in those earlier studies: 
+a prediction is made when a job arrives and is never genuinely revised — as the job progresses, elapsed time is simply subtracted from the initial forecast, with no new information about the job itself incorporated. 
+Process-aware approaches work differently. After every completed activity, they revise their prediction based on the specific route the job has taken so far, using that accumulated case history to narrow down what is 
+likely to happen next. The two approaches therefore draw on fundamentally different sources of information: aggregate approaches ask what the system looks like right now, while process-aware approaches ask what has 
+happened to this particular job so far. (CLADUE TEXT need to change).
 
-Second, while their contigency criteria are based on statistical properties, such as the correlation between the prediction and the observation or the violation of distribution assumptions, our criterion is based on the structural complexity of the process itself. 
-Although we utilize statiscal methods to quantify these characteristics using historical data, the metrics computed essentially represents the physical configuration of the process rather than the temporal fluctuations
-of the queue. 
+This first difference motivates the second, which concerns our contingency criterion. Rather than properties of a single queue, such as statisical correlation between the prediction and the observation, arrival rates and 
+service times distribution, or priority rules violation, as in Bassamboo and Ibrahim (2020) and Chocron et al. (2022), we focus on the structure of the process: how many unique paths jobs can take, how much faster or slower some paths are compared to others,
+and how jobs are distributed across these paths. Although we utilize statiscal methods to quantify these characteristics using historical data, 
+the metrics computed essentially represents the physical configuration of the process rather than the temporal fluctuations of the queue. In the methodological framework that follows,
+we introduce their definitions and explain how we examine their relationship with the relative accuracy of the two approaches, state-based and case-path based.
 
 % Modifying the template --- including but not limited to: adjusting
 % margins, typeface sizes, line spacing, paragraph and list definitions,
