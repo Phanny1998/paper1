@@ -193,7 +193,7 @@ path knowledge (knowing all the possible paths and being able to infer the remai
 has the biggest advantage over the traditional state-based approach. 
 
 The first measurement is between-path variance, representing how much of total cycle time variance is explained by the choice of path, and the second measurement is entropy, representing the frequency distribution of paths across all observed jobs.
-Together, these two dimensions define a contingency framework that links the structural properties of a process to the predictive value of case-path information.
+Together, these two dimensions define a contingency view that links the structural properties of a process to the predictive value of case-path information.
 
 Our study establishes and provides first evidence for this contingency view. Using discrete event simulation with configurable process parameters, 
 we generate synthetic event logs spanning a wide range of structural configurations and compare the predictive accuracy of a process-aware 
@@ -228,15 +228,33 @@ Section 5 presents the results. Section 6 discusses the findings and their impli
 \section{Literature Review}
 \subsection{The State-based approach to Lead Time Prediction problem in Manufacturing OR}
 
-Queueing Theory is the study of queues...Especially important in manufacturing where the majority of cycle time comes from waiting in queues rather than actual processing.
+In traditional manufacturing OM, two approaches have been most commonly used for lead time prediction, and despite their differences in mechanics and origin, they share an underlying assumption, that the state, or the momentum of
+the system is the primary source of information.
 
-Time Series Analysis is a versatile method used in a wide variety of predictive problems, including cycle times () and wait times () in manufacturing systems. Its core focus is on temporal patterns and trends.
+The first approach draws on Queueing Theory. As the name suggests, Queueing Theory is the study of queues. It seeks to represent real life queueing systems with queueing models (Hillier and Lieberman, 2000) and leveraging these models for a wide range of descriptive, prescriptive, and obviously predictive tasks.
+Queueing Theory is espcially relevant for the manufacturing lead time prediction problem, because in a manufacturing setup where the machines and the operations are generally standardized, there is much more uncertainty about the queueing time for a job than there is about the processing time (Enns, 1994). Previous empirical research suggests that actual processing
+accounts for around 10\% , while queueing accounts for 85\% of total flow time (Strommel, 1976). As such, knowing the state of the system- how many jobs are waiting to be processed in the shop floor- is the natural starting point for
+prediction. This core assumption of QT-based predictors is well reflected in one of the field's most important formulae, Little's Law, which states that:
+ W = WIP / Lambda
+ Where:
+ W = Flow Time
+ WIP = Work in progress
+ Lambda = Throughput
+
+ Little's Law holds not only in long-term steady-state (Little, 1961) but also in any short-term window, as long as the variables are computed under the same time window (Little, 2011). 
+ The importance of the aggregate load on the system in predicting job completion times is also well-documented in Eilon and Chowdhury, Weeks, Ragatz & Mabert, Enns (1998), Bertrand (1983a, 1983b-check Enns 1998 EJOR), to name a few. 
+
+
+The second approach uses time series analysis, which developed independently as a general-purpose forecasting methodology, whose core focus is on temporal patterns and trends. Time series forecasting is used in a wide variety of predictive problems. Applied to manufacturing,
+the core insight is that recent observations carry momentum that reflects the state of the system, and thus, what happened to the last n jobs is informative about what will happen to the next one. 
+
+
+
+  Time Series Analysis is a versatile method used in a wide variety of predictive problems, including cycle times () and wait times () in manufacturing systems. Its core focus is on temporal patterns and trends.
 
 \subsection{The case-path alternative}
 
-Process mining is a discipline developed at the intersection of business process management and data science. 
-
-It analyzses event logs - digital records produced by information systems that capture the execution of business processes (van der Aalst, 2016)
+Process mining is a discipline developed at the intersection of business process management and data science. It analyzses event logs - digital records produced by information systems that capture the execution of business processes (van der Aalst, 2016)
 
 \begin{table}[h]
 \centering
@@ -490,11 +508,11 @@ manufacturing line with quality control and rework, inspired by Lorenz et al. (2
 
 \begin{itemize}
     \item An open, single-class Jackson network
-    \item Poisson arrivals with average rate $\lambda = 0.28$ per simulation time unit. This means that in different simulation runs of length 1000, there might be approximately 270 or 290 jobs but on average across many runs, the average will be around 280 jobs.
-    \item exponential and independent service times across all stations
+    \item Arrivals follow a Poission input process with average rate $\lambda = 0.28$ per simulation time unit. This means that in different simulation runs of length 1000, there might be approximately 270 or 290 jobs but on average across many runs, the average will be around 280 jobs.
+    \item Exponential and independent service times across all stations
     \item No machine breakdown
-    \item Machines are assigned through a First Come First Served (FCFS) Policy
-    \item Unlimited queue length
+    \item Machines are assigned through a First Come First Served (FCFS) Discipline
+    \item Unlimited queue length at each station
     \item No buffer inventory
     \item Transport time between stations on the conveyor system is not logged, assuming immediate transfer, meaning all time is spent either waiting in queues or being processed on machines.
     \item Run time is 30000*

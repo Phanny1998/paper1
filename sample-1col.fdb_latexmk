@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex sample-1col"] 1775058194.0329 "sample-1col.aux" "sample-1col.bbl" "sample-1col" 1775058194.35932 2
+["bibtex sample-1col"] 1775137782.40554 "sample-1col.aux" "sample-1col.bbl" "sample-1col" 1775137782.75494 2
   "./sample-ceur.bib" 1773994340 52036 f092442ac03c53fe92ef83ac605d7532 ""
   "C:/Users/thanh.phan/AppData/Local/Programs/MiKTeX/bibtex/bst/bibtex/plain.bst" 1291864736 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
   "C:/Users/thanh.phan/AppData/Local/Programs/MiKTeX/bibtex/bst/elsarticle/elsarticle-num-names.bst" 1768130249 28896 ef8ea1833e4d69d9f60b6db23b4bea61 ""
-  "sample-1col.aux" 1775058186 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "sample-1col.aux" 1775137774 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
   (generated)
   "sample-1col.bbl"
   "sample-1col.blg"
   (rewritten before read)
-["pdflatex"] 1775058188.71878 "c:/Users/thanh.phan/Downloads/Template_for_submissions_to_CEUR_Workshop_Proceedings__CEUR_WS_org___2_/sample-1col.tex" "sample-1col.pdf" "sample-1col" 1775058193.2342 0
+["pdflatex"] 1775137698.0109 "c:/Users/thanh.phan/Downloads/Template_for_submissions_to_CEUR_Workshop_Proceedings__CEUR_WS_org___2_/sample-1col.tex" "sample-1col.pdf" "sample-1col" 1775137782.75524 2
   "C:/Users/thanh.phan/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1774360276 184077 45705f4fc99e2b682f58041f39cb6eb4 ""
   "C:/Users/thanh.phan/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1773995355 13336282 7e04735a37d00075eafdd574d9ddef33 ""
   "C:/Users/thanh.phan/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/fontawesome5/fa5brands1.enc" 1651500229 2608 3139db8e1f9371a4f87c0715d17fa217 ""
@@ -178,7 +178,6 @@
   "C:/Users/thanh.phan/AppData/Local/Programs/MiKTeX/tex/generic/pgf/utilities/pgfrcs.code.tex" 1756451143 4385 510565c2f07998c8a0e14f0ec07ff23c ""
   "C:/Users/thanh.phan/AppData/Local/Programs/MiKTeX/tex/generic/pgf/utilities/pgfutil-common.tex" 1756451143 30029 c49ea8f95207c46731469c614daf4e33 ""
   "C:/Users/thanh.phan/AppData/Local/Programs/MiKTeX/tex/generic/pgf/utilities/pgfutil-latex.def" 1756451143 7067 11553488d1600cac6a0cfca012fca111 ""
-  "C:/Users/thanh.phan/AppData/Local/Programs/MiKTeX/tex/generic/stringenc/se-utf8.def" 1575105836 11635 4fd2019d04ad095a0b1bde5aaed4a70e ""
   "C:/Users/thanh.phan/AppData/Local/Programs/MiKTeX/tex/generic/stringenc/stringenc.sty" 1575105840 21514 b7557edcee22835ef6b03ede1802dad4 ""
   "C:/Users/thanh.phan/AppData/Local/Programs/MiKTeX/tex/generic/uniquecounter/uniquecounter.sty" 1576434012 7008 f92eaa0a3872ed622bbf538217cd2ab7 ""
   "C:/Users/thanh.phan/AppData/Local/Programs/MiKTeX/tex/generic/xkeyval/xkeyval.tex" 1656236919 19231 27205ee17aaa2902aea3e0c07a3cfc65 ""
@@ -329,14 +328,14 @@
   "C:/Users/thanh.phan/AppData/Local/Programs/MiKTeX/tex/latex/xmpincl/xmpincl.sty" 1633254124 2832 d498c59e94b7dfa3b4bcf74380ad6348 ""
   "C:/Users/thanh.phan/AppData/Local/Programs/MiKTeX/tex/latex/xstring/xstring.sty" 1693735632 123 a302f2c651a95033260db60e51527ae8 ""
   "UML_state_machine_Fig1.png" 1773994340 10434 67611b072be6e951a816b9d986ee3bc6 ""
-  "c:/Users/thanh.phan/Downloads/Template_for_submissions_to_CEUR_Workshop_Proceedings__CEUR_WS_org___2_/sample-1col.tex" 1775058186 60061 00ad5e2b3ecef9ac1a5926ee3d3f8a60 ""
+  "c:/Users/thanh.phan/Downloads/Template_for_submissions_to_CEUR_Workshop_Proceedings__CEUR_WS_org___2_/sample-1col.tex" 1775137780 62264 56aea77229769cd48ff11f7b57f157e1 ""
   "ceurart.cls" 1773994340 82006 622c39491db0a4aca57744187b3d2649 ""
-  "pdfa.xmpi" 1775058189 6760 a13f6c7993b7b5c6584d2e241214fa7d "pdflatex"
-  "sample-1col.abs" 1775058190 786 15bfc92af3a4a0ac0cebe352a236ef13 "pdflatex"
-  "sample-1col.aux" 1775058186 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
-  "sample-1col.bbl" 1775058194 0 d41d8cd98f00b204e9800998ecf8427e "bibtex sample-1col"
-  "sample-1col.tex" 1775058186 60061 00ad5e2b3ecef9ac1a5926ee3d3f8a60 ""
-  "sample-1col.xmpdata" 1775058191 562 afbef0f69c73b804aaf545e9c541a77b "pdflatex"
+  "pdfa.xmpi" 1775137699 5045 f7ec38d780851e1c22b1be72e7ee667d "pdflatex"
+  "sample-1col.abs" 1775137700 786 15bfc92af3a4a0ac0cebe352a236ef13 "pdflatex"
+  "sample-1col.aux" 1775137774 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "sample-1col.bbl" 1775137782 0 d41d8cd98f00b204e9800998ecf8427e "bibtex sample-1col"
+  "sample-1col.tex" 1775137780 62264 56aea77229769cd48ff11f7b57f157e1 ""
+  "sample-1col.xmpdata" 1775137701 562 afbef0f69c73b804aaf545e9c541a77b "pdflatex"
   "stfloats.sty" 1773995297 9601 ddf2319bfa927512aab97ca6534f5df0 ""
   (generated)
   "pdfa.xmpi"
@@ -346,5 +345,3 @@
   "sample-1col.pdf"
   "sample-1col.xmpdata"
   (rewritten before read)
-  "pdfa.xmpi"
-  "sample-1col.abs"
